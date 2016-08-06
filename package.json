@@ -1,0 +1,27 @@
+{
+  "name": "modeler",
+  "version": "1.0.0",
+  "description": "Standalone data modeling and validation tool.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CreateIO/modeler.git"
+  },
+  "keywords": [
+    "data",
+    "model"
+  ],
+  "author": "Create <http://create.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CreateIO/modeler/issues"
+  },
+  "homepage": "https://github.com/CreateIO/modeler#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.1"
+  }
+}
