@@ -151,3 +151,11 @@ Modeler.any;                                    // Anything!
 Modeler.any.of(Modeler.Text, Modeler.Number);   // Text or number
 Modeler.any.of([Modeler.Text, Modeler.Number]); // Can also be an array
 ```
+
+## Custom Fields
+
+```js
+const Modeler = require('modeler');
+
+Modeler.type()
+```

@@ -1,6 +1,5 @@
-const Field = require('./Field');
 const Model = require('./Model');
-const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, AnyMethods } = require('./methods');
+const { DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, AnyMethods } = require('./methods');
 const ObjectValidations = require('./util/ObjectValidations');
 const isPlainObject = require('is-plain-object');
 
@@ -157,18 +156,5 @@ const FieldInfo = {
 
 // module.exports is produced using the properties above
 for (let i in FieldInfo) {
-  let field = FieldInfo[i];
-
-  module.exports[i] = () => {
-    // Create a new field definition with the name, default params, and default validators of this field type
-    const FieldInstance = new Field(field.name, field.params, field.validators);
-
-    // All field types have the basic chainable methods, and field type-specific chainable methods are added as well, and bound to this class instance
-    FieldInstance.bindMethods.apply(FieldInstance, field.methods.concat(BaseMethods));
-
-    // If a field is called as a function instead of accessed as a property, store the constructor for later use
-    if (field.fn) FieldInstance.setConstructor(field.fn);
-
-    return FieldInstance;
-  }
+  module.exports[i] = FieldInfo[i]
 }
