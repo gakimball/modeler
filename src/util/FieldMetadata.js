@@ -7,7 +7,7 @@ module.exports = class FieldMetadata {
    * Creates a new field metadata wrapper, extending the default metadata properties with field-specific properties.
    * @param {Object} object - Extra properties to add.
    */
-  constructor(object) {
+  constructor(object = {}) {
     this.metadata = Object.assign({}, {
       type: '',
       params: {

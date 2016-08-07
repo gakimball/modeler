@@ -1,13 +1,15 @@
 const Model = require('./model');
-const { textField } = require('./fields');
+const Fields = require('./fields');
 
 const Types = {};
 
-Object.defineProperty(Types, 'Text', {
-  get() {
-    return textField();
-  }
-});
+for (let i in Fields) {
+  Object.defineProperty(Types, i, {
+    get() {
+      return Fields[i]();
+    }
+  });
+}
 
 module.exports = (fields) => new Model(fields);
 
