@@ -9,7 +9,7 @@ class ValueModule extends Module {
   static properties = Modeler({
     key: Modeler.Text.required,
     value: Modeler.Text.dynamic.required,
-    size: Modeler.Select('full', 'half', 'quarter').required
+    size: Modeler.Option('full', 'half', 'quarter').required
   })
 }
 
@@ -53,7 +53,7 @@ model.validate({
 You can also generate a blank object that fits the model's shape.
 
 ```js
-model.blank() // => { name: '', age: '' }
+model.blank(); // => { name: '', age: '' }
 ```
 
 ## Fields
@@ -75,6 +75,9 @@ A text field is any string.
 
 ```js
 Modeler.Text;
+Modeler.Text.atLeast(5);     // String must have at least 5 characters
+Modeler.Text.atMost(30);     // String must have at most 30 characters
+Modeler.Text.between(5, 30); // String must have 5&ndash;30 characters
 ```
 
 ### Number
@@ -115,6 +118,9 @@ A series is an array of items.
 ```js
 Modeler.Series;                  // Items can be any type
 Modeler.Series.of(Modeler.Text); // Items must all be one type
+Modeler.Series.atLeast(1);       // Array must have at least 1 item
+Modeler.Series.atMost(10);       // Array must have 10 or fewer items
+Modeler.Series.between(1, 10);   // Array must have 1&ndash;10 items
 ```
 
 ### Object
@@ -140,6 +146,9 @@ Modeler.Collection({
   title: Modeler.Text.required,
   pct: Modeler.Number.between(0, 100).required
 });
+Modeler.Collection({}).atLeast(1);     // Collection must have at least 1 item
+Modeler.Collection({}).atMost(10);     // Collection must have 10 or fewer items
+Modeler.Collection({}).between(1, 10); // Collection must have 1&ndash;10 items
 ```
 
 ### any

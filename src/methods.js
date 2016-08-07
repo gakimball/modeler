@@ -187,6 +187,44 @@ ObjectMethods.values.func = true;
 ObjectMethods.shape.func = true;
 
 /**
+ * Chainable functions used by array types.
+ * @type MethodList
+ */
+let ArrayMethods = {
+  /**
+   * Requires an array's length to be between two values (inclusive).
+   * @param {Number} min - Minimum value.
+   * @param {Number} max - Maximum value.
+   */
+  between(min, max) {
+    this.validators.push(n => n.length >= min && n.length <= max);
+    return this;
+  },
+
+  /**
+   * Requires an array's length to be greater than or equal to a value.
+   * @param {Number} min - Minimum value.
+   */
+  atLeast(min) {
+    this.validators.push(n => n.length >= min);
+    return this;
+  },
+
+  /**
+   * Requires an array's length to be less than or equal to a value.
+   * @param {Number} max - Maximum value.
+   */
+  atMost(max) {
+    this.validators.push(n => n.length <= max);
+    return this;
+  }
+}
+
+ArrayMethods.between.func = true;
+ArrayMethods.atLeast.func = true;
+ArrayMethods.atMost.func = true;
+
+/**
  * Chainable functions used by flexible types.
  * @type MethodList
  */
@@ -213,4 +251,4 @@ let AnyMethods = {
 
 AnyMethods.of.func = true;
 
-module.exports = { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, AnyMethods };
+module.exports = { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, ArrayMethods, AnyMethods };

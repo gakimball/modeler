@@ -1,5 +1,5 @@
 const Model = require('./Model');
-const { DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, AnyMethods } = require('./methods');
+const { DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, ArrayMethods, AnyMethods } = require('./methods');
 const ObjectValidations = require('./util/ObjectValidations');
 const isPlainObject = require('is-plain-object');
 
@@ -28,7 +28,7 @@ const TypeInfo = {
     name: 'text',
     params: { default: '' },
     validators: [(value => typeof value === 'string')],
-    methods: [DynamicMethods]
+    methods: [DynamicMethods, ArrayMethods]
   },
 
   /**
@@ -91,7 +91,7 @@ const TypeInfo = {
     name: 'series',
     params: { default: [] },
     validators: [(value => Array.isArray(value))],
-    methods: [SeriesMethods]
+    methods: [ArrayMethods, SeriesMethods]
   },
 
   /**
@@ -106,7 +106,7 @@ const TypeInfo = {
     name: 'collection',
     params: { default: [], defaultObj: {}, model: null },
     validators: [(value => Array.isArray(value))],
-    methods: [],
+    methods: [ArrayMethods],
     /**
      * Defines the model of this collection. Adds an extra validator that checks every item in a collection against the model.
      * @param {Field} instance - Field class instance to modify.
