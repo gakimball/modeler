@@ -1,20 +1,45 @@
 const Field = require('./field');
-const { BaseValidators, DynamicValidators } = require('./validators');
+const { BaseMethods, DynamicMethods } = require('./methods');
 
+/**
+ * Properties to pass to the `Field` class when creating an instance of a specific field type.
+ * @todo Determine if "name" is ever used
+ * @typedef {Object} FieldDefinition
+ * @prop {String} name - Name of the field type.
+ * @prop {Object.<String, *>} params - Overrides to the default parameters of a field type.
+ * @prop {Validator[]} validators - Base-level validation checks for this field type.
+ * @prop {MethodList[]} methods - Chainable methods usable by this field.
+ */
+
+/**
+ * Field types with default settings.
+ * @constant
+ * @private
+ * @type Object.<String, FieldDefinition>
+ */
 const FieldInfo = {
+  /**
+   * String field type. Base validator checks if a value is a string.
+   */
   Text: {
     name: 'text',
     params: { default: '' },
     validators: [(value => typeof value === 'string')],
-    methods: [BaseValidators, DynamicValidators]
+    methods: [DynamicMethods]
   }
 }
 
+// module.exports is produced using the properties above
 for (let i in FieldInfo) {
   let field = FieldInfo[i];
+
   module.exports[i] = () => {
+    // Create a new field definition with the name, default params, and default validators of this field type
     const FieldInstance = new Field(field.name, field.params, field.validators);
-    FieldInstance.bindMethods.apply(FieldInstance, field.methods);
+
+    // All field types have the basic chainable methods, and field type-specific chainable methods are added as well, and bound to this class instance
+    FieldInstance.bindMethods.apply(FieldInstance, field.methods.concat(BaseMethods));
+
     return FieldInstance;
   }
 }

@@ -7,8 +7,8 @@ const makeRandomId = require('./util/makeRandomId');
 module.exports = class Model {
   /**
    * Create a new Model, storing an object of fields passed into it.
-   * @param {Object.<String,Field>} Fields for this model.
    * @constructor
+   * @param {Object.<String,Field>} Fields for this model.
    */
   constructor(fields) {
     this.fields = fields;
@@ -16,6 +16,7 @@ module.exports = class Model {
 
   /**
    * Generate a blank object fitting the model's shape.
+   * @todo Consider using "id" instead of "_id"
    * @returns {Object} Blank model instance.
    */
   blank() {

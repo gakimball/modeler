@@ -1,14 +1,13 @@
 /**
  * A series of functions that can be attached to a model definition as chainable methods.
- * @typedef MethodList
- * @type {Object.<Function>}
+ * @typedef {Object.<String, Function>} MethodList
  */
 
 /**
  * Chainable functions used by all types.
  * @type MethodList
  */
-BaseValidators = {
+BaseMethods = {
   /**
    * Makes a field required.
    */
@@ -19,6 +18,7 @@ BaseValidators = {
 
   /**
    * Sets a default value for a field.
+   * @param {*} value - Default value.
    */
   default(value) {
     this.params.default = value;
@@ -26,13 +26,13 @@ BaseValidators = {
   }
 }
 
-BaseValidators.default.func = true;
+BaseMethods.default.func = true;
 
 /**
  * Chainable functions used by types that support dynamic values.
  * @type MethodList
  */
-DynamicValidators = {
+DynamicMethods = {
   /**
    * Defines a field as being dynamic, making it filterable.
    */
@@ -43,6 +43,7 @@ DynamicValidators = {
 
   /**
    * Adds a filter to a field.
+   * @param {Function} Filter function.
    */
   filter(fn) {
     this.filters.push(fn);
@@ -50,6 +51,6 @@ DynamicValidators = {
   }
 }
 
-DynamicValidators.filter.func = true;
+DynamicMethods.filter.func = true;
 
-module.exports = { BaseValidators, DynamicValidators }
+module.exports = { BaseMethods, DynamicMethods }

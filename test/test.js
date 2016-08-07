@@ -4,7 +4,7 @@ const Modeler = require('../src');
 const Model = require('../src/Model');
 const Field = require('../src/Field');
 const { Types } = Modeler;
-const { BaseValidators, DynamicValidators } = require('../src/validators');
+const { BaseMethods, DynamicMethods } = require('../src/methods');
 const makeRandomId = require('../src/util/makeRandomId');
 
 describe('Modeler', () => {
@@ -45,7 +45,7 @@ describe('Field', () => {
       });
     });
 
-    it('copies validators parameter to this.validators', () => {
+    it('copies validators parameter to this.methods', () => {
       expect(Instance.validators).to.eql(Validators)
     });
 
@@ -173,7 +173,7 @@ describe('Field methods', () => {
     it('sets this.params.required to true', () => {
       const Input = { params: { required: false } };
       const Expected = { params: { required: true } };
-      expect(BaseValidators.required.call(Input)).to.eql(Expected);
+      expect(BaseMethods.required.call(Input)).to.eql(Expected);
     });
   });
 
@@ -181,7 +181,7 @@ describe('Field methods', () => {
     it('sets this.params.default to given value', () => {
       const Input = { params: { default: '' } };
       const Expected = { params: { default: 'test' } };
-      expect(BaseValidators.default.call(Input, 'test')).to.eql(Expected);
+      expect(BaseMethods.default.call(Input, 'test')).to.eql(Expected);
     });
   });
 
@@ -189,7 +189,7 @@ describe('Field methods', () => {
     it('sets this.params.dynamic to true', () => {
       const Input = { params: { dynamic: false } };
       const Expected = { params: { dynamic: true } };
-      expect(DynamicValidators.dynamic.call(Input)).to.eql(Expected);
+      expect(DynamicMethods.dynamic.call(Input)).to.eql(Expected);
     });
   });
 
@@ -197,7 +197,7 @@ describe('Field methods', () => {
     const Fn = () => {};
     const Input = { filters: [] };
     const Expected = { filters: [Fn] };
-    expect(DynamicValidators.filter.call(Input, Fn)).to.eql(Expected);
+    expect(DynamicMethods.filter.call(Input, Fn)).to.eql(Expected);
   });
 });
 
