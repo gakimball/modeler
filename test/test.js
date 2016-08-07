@@ -7,16 +7,6 @@ const { Types } = Modeler;
 const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods');
 const makeRandomId = require('../src/util/makeRandomId');
 
-const m = Modeler({
-  thing: Types.any.of(Types.Text, Types.Number)
-});
-
-const o = m.validate({
-  thing: false
-});
-
-console.log(o);
-
 describe('Modeler', () => {
   it('is a wrapper around Model', () => {
     expect(Modeler({})).to.be.an.instanceOf(Model);

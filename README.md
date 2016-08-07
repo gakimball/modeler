@@ -108,17 +108,6 @@ Modeler.Flag.default(true); // Default is false unless specified
 Modeler.Flag.allowStrings;  // Value can be string "true" or "false"
 ```
 
-### Date
-
-A date is a Unix Time number.
-
-```js
-Modeler.Date;
-// Formatted with dateformat: https://www.npmjs.com/package/dateformat
-// Can also be formatted manually with a filter
-Modeler.Date.format('mmmm dS, yyyy');
-```
-
 ### Series
 
 A series is an array of items.
@@ -151,4 +140,14 @@ Modeler.Collection({
   title: Modeler.Text.required,
   pct: Modeler.Number.between(0, 100).required
 });
+```
+
+### any
+
+A field can allow any type, or allow for one of a set of types.
+
+```js
+Modeler.any;                                    // Anything!
+Modeler.any.of(Modeler.Text, Modeler.Number);   // Text or number
+Modeler.any.of([Modeler.Text, Modeler.Number]); // Can also be an array
 ```
