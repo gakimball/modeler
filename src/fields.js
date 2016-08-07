@@ -20,6 +20,7 @@ const { BaseMethods, DynamicMethods, NumberMethods } = require('./methods');
 const FieldInfo = {
   /**
    * String field type. Base validator checks if a value is a string.
+   * @type FieldDefinition
    */
   Text: {
     name: 'text',
@@ -30,6 +31,7 @@ const FieldInfo = {
 
   /**
    * String field type. Base validator checks if a value is a string.
+   * @type FieldDefinition
    */
   Number: {
     name: 'number',
@@ -38,6 +40,11 @@ const FieldInfo = {
     methods: [DynamicMethods, NumberMethods]
   },
 
+  /**
+   * Option field type. Base validator checks if a value is one of the options.
+   * This type is called as a function instead of a property.
+   * @type FieldDefinition
+   */
   Option: {
     name: 'option',
     params: { default: '', options: [] },
@@ -58,6 +65,17 @@ const FieldInfo = {
 
       instance.params.default = instance.params.options[0];
     }
+  },
+
+  /**
+   * Boolean field type. Base validator checks if a value is a boolean.
+   * @type FieldDefinition
+   */
+  Flag: {
+    name: 'flag',
+    params: { default: false },
+    validators: [(value => typeof value === 'bolean')],
+    methods: []
   }
 }
 

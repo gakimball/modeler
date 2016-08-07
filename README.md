@@ -105,6 +105,7 @@ A flag is a yes/no choice, stored as a boolean.
 ```js
 Modeler.Flag;
 Modeler.Flag.default(true); // Default is false unless specified
+Modeler.Flag.allowStrings;  // Value can be string "true" or "false"
 ```
 
 ### Date
