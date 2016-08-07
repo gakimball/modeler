@@ -8,13 +8,6 @@ const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods')
 const addType = require('../src/util/addType');
 const makeRandomId = require('../src/util/makeRandomId');
 
-const m = Modeler({
-  name: Types.Text.default('hey'),
-  location: Types.Text
-});
-
-console.log(m.fields);
-
 describe('Modeler', () => {
   it('is a wrapper around Model', () => {
     expect(Modeler({})).to.be.an.instanceOf(Model);
@@ -103,7 +96,7 @@ describe('Field', () => {
     };
 
     it('adds methods to this.metadata', () => {
-      const Instance = new Field(Type, {}, []);
+      const Instance = new Field(Type);
       Instance.bindMethods(Methods);
       expect(Instance).to.have.property('one');
     });
@@ -113,14 +106,14 @@ describe('Field', () => {
         two() { return this; }
       };
 
-      const Instance = new Field(Type, {}, []);
+      const Instance = new Field(Type);
       Instance.bindMethods(Methods, ExtraMethods);
       expect(Instance).to.have.property('one');
       expect(Instance).to.have.property('two');
     });
 
     it('binds methods to class instance', () => {
-      const Instance = new Field(Type, {}, []);
+      const Instance = new Field(Type);
       Instance.bindMethods(Methods);
       expect(Instance.one).to.be.an.instanceOf(Field);
     });
@@ -130,11 +123,20 @@ describe('Field', () => {
         one() { return this }
       }
       functions.one.func = true;
-      const Instance = new Field(Type, {}, []);
+      const Instance = new Field(Type);
       Instance.bindMethods(functions);
       expect(Instance)
         .to.have.property('one')
         .which.is.a('function');
+    });
+  });
+
+  describe('setConstructor()', () => {
+    it('stores a function on this._constructor', () => {
+      const Instance = new Field(Type);
+      const Fn = () => {};
+      Instance.setConstructor(Fn);
+      expect(Instance._constructor).to.equal(Fn);
     });
   });
 });
