@@ -5,7 +5,7 @@ Data modeling and validation tool.
 ```js
 import Modeler from 'modeler';
 
-class ValueModule extends GeoViewModule {
+class ValueModule extends Module {
   static properties = Modeler({
     key: Modeler.Text.required,
     value: Modeler.Text.dynamic.required,
@@ -13,7 +13,7 @@ class ValueModule extends GeoViewModule {
   })
 }
 
-class PieChartModule extends GeoViewModule {
+class PieChartModule extends Module {
   static properties = Modeler({
     items: Modeler.Collection({
       key: Modeler.Text.required,
@@ -23,11 +23,42 @@ class PieChartModule extends GeoViewModule {
 }
 ```
 
-## API
+## Models
 
-### Fields
+Create a model with the `Modeler` function, then pass in fields in an object.
 
-#### Common Modifiers
+```js
+const model = Modeler({
+  name: Modeler.Text.required,
+  age: Modeler.Number.required
+});
+```
+
+With this model, you can validate that an object fits the model's requirements.
+
+```js
+// Valid, returns true
+model.validate({
+  name: 'Brian Wilson',
+  age: 22
+});
+
+// Invalid, returns false
+model.validate({
+  name: 29038294,
+  age: 22
+});
+```
+
+You can also generate a blank object that fits the model's shape.
+
+```js
+model.blank() // => { name: '', age: '' }
+```
+
+## Fields
+
+### Common Modifiers
 
 These settings can be applied to any field type.
 
@@ -38,7 +69,7 @@ Modeler.Field.default('default'); // Set a field's default value
 Modeler.Field.filter(fn); // Convert value with a function
 ```
 
-#### Text
+### Text
 
 A text field is any string.
 
@@ -46,16 +77,19 @@ A text field is any string.
 Modeler.Text;
 ```
 
-#### Number
+### Number
 
 A number field is any number, or a number stored as a string.
 
 ```js
 Modeler.Number;
-Modeler.Number.between(0, 1);
+Modeler.Number.between(0, 1); // Limit the range of numbers
+Modeler.Number.atLeast(0);    // Floor for number
+Modeler.Number.atMost(1);     // Ceiling for number
+Modeler.Number.allowStrings;  // Number can be a string
 ```
 
-#### Option
+### Option
 
 An option field is a single choice among multiple values. Can be stored as any type.
 
@@ -64,7 +98,7 @@ Modeler.Option('one', 'two', 'three');
 Modeler.Option(['one', 'two', 'three']); // Can also be passed as an array
 ```
 
-#### Flag
+### Flag
 
 A flag is a yes/no choice, stored as a boolean.
 
@@ -73,7 +107,7 @@ Modeler.Flag;
 Modeler.Flag.default(true); // Default is false unless specified
 ```
 
-#### Date
+### Date
 
 A date is a Unix Time number.
 
@@ -84,18 +118,18 @@ Modeler.Date;
 Modeler.Date.format('mmmm dS, yyyy');
 ```
 
-#### Collection
+### Series
 
-A collection is a variable-length group of the same thing, stored as as array.
-
-A collection can be for a simple value, like a collection of numbers.
+A series is an array of items.
 
 ```js
-Modeler.Collection(Modeler.Number);
-Modeler.Collection().atLeast(1); // Define a minimum number of items
+Modeler.Series;                 // Items can be any type
+Modeler.Series.of(Series.Text); // Items must all be one type
 ```
 
-A collection can also be for a complex object.
+### Collection
+
+A collection is an object. It's like a model *inside* a model!
 
 ```js
 Modeler.Collection({
