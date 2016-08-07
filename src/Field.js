@@ -10,7 +10,7 @@ module.exports = class Field {
    * @param {Object} params - Overrides to default field parameters.
    * @param {Function[]} validators - Baseline validators for this field.
    */
-  constructor(type, params, validators) {
+  constructor(type, params = {}, validators = []) {
     this.type = type;
     this.params = Object.assign({}, {
       required: false,
@@ -18,6 +18,7 @@ module.exports = class Field {
       default: ''
     }, params);
     this.validators = validators;
+    this.filters = [];
   }
 
   /**
@@ -34,6 +35,20 @@ module.exports = class Field {
     }
 
     return valid;
+  }
+
+  /**
+   * Process a value through this field's filters.
+   * @param {*} value - Raw value to process.
+   * @returns {*} Filtered value.
+   */
+  process(value) {
+    if (!this.validate(value)) return value;
+    let returnValue = value;
+    for (let filter of this.filters) {
+      returnValue = filter(returnValue);
+    }
+    return returnValue;
   }
 
   /**

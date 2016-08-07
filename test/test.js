@@ -48,6 +48,10 @@ describe('Field', () => {
     it('copies validators parameter to this.validators', () => {
       expect(Instance.validators).to.eql(Validators)
     });
+
+    it('sets empty array for filters', () => {
+      expect(Instance.filters).to.be.an('array');
+    });
   });
 
   describe('validate()', () => {
@@ -62,6 +66,26 @@ describe('Field', () => {
     it('returns false if any validator does not pass', () => {
       const Instance = new Field(Type, Params, [ValidatorOne, ValidatorTwo]);
       expect(Instance.validate('test')).to.be.false;
+    });
+  });
+
+  describe('process()', () => {
+    let field;
+    const Validator = (v) => typeof v === 'number';
+    const Double = (n) => n * 2;
+    const Triple = (n) => `$${n}`;
+
+    before(() => {
+      field = new Field('test', {}, [Validator]);
+      field.filters = [Double, Triple];
+    });
+
+    it('does not filter if the value is invalid in the first place', () => {
+      expect(field.process('NaN')).to.equal('NaN');
+    });
+
+    it('runs all filters in order', () => {
+      expect(field.process(10)).to.equal('$20');
     });
   });
 
@@ -167,6 +191,13 @@ describe('Field methods', () => {
       const Expected = { params: { dynamic: true } };
       expect(DynamicValidators.dynamic.call(Input)).to.eql(Expected);
     });
+  });
+
+  describe('filter', () => {
+    const Fn = () => {};
+    const Input = { filters: [] };
+    const Expected = { filters: [Fn] };
+    expect(DynamicValidators.filter.call(Input, Fn)).to.eql(Expected);
   });
 });
 

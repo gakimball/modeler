@@ -39,7 +39,17 @@ DynamicValidators = {
   dynamic() {
     this.params.dynamic = true;
     return this;
+  },
+
+  /**
+   * Adds a filter to a field.
+   */
+  filter(fn) {
+    this.filters.push(fn);
+    return this;
   }
 }
+
+DynamicValidators.filter.func = true;
 
 module.exports = { BaseValidators, DynamicValidators }
