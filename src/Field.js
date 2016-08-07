@@ -22,6 +22,7 @@ module.exports = class Field {
 
   /**
    * Check if a value is valid according to this field's rules.
+   * @todo Be more explicit about why validation failed.
    * @param {*} value - Value to check.
    * @returns {Boolean} `true` if valid, `false` otherwise.
    */

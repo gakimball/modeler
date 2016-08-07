@@ -110,7 +110,7 @@ describe('Field', () => {
 describe('Model', () => {
   let Instance;
   const Fields = {
-    value: Types.Text.default('test')
+    value: Types.Text.default('test').required
   };
 
   before(() => {
@@ -136,6 +136,10 @@ describe('Model', () => {
   describe('validate()', () => {
     it('validates model fields', () => {
       expect(Instance.validate({ value: 0 })).to.be.false;
+    });
+
+    it('returns false if a required field does not exist', () => {
+      expect(Instance.validate({})).to.be.false;
     });
   });
 });
@@ -169,7 +173,7 @@ describe('Field methods', () => {
 describe('makeRandomId()', () => {
   it('generates a six-character string', () => {
     expect(makeRandomId()).to.be.a('string');
-    expect(makeRandomId()).to.have.lengthOf(6);
+    expect(makeRandomId()).to.have.length.within(5, 6);
   });
 
   it('generates a unique string each time', () => {
