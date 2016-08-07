@@ -152,10 +152,34 @@ Modeler.any.of(Modeler.Text, Modeler.Number);   // Text or number
 Modeler.any.of([Modeler.Text, Modeler.Number]); // Can also be an array
 ```
 
-## Custom Fields
+## Custom Types
+
+Create a custom field type by calling `Modeler.type()`, passing in a name and these settings:
+
+- `name` (String): string representation of type.
+- `params` (Object): overrides to the default parameters of a type, or new parameters. All types have these three parameters by default:
+  - `default` (Any): default value for this field.
+  - `required` (Boolean): if this field is required.
+  - `dynamic` (Boolean): if this field id dynamic (filterable).
+- `validators` (Array): initial validation checks to run on values in this field. These are usually the most basic checks needed.
+- `methods` (Object): chainable methods usable by this type.
 
 ```js
 const Modeler = require('modeler');
 
-Modeler.type()
+Modeler.type('Function', {
+  name: 'function',
+  params: {
+    default: () => {}
+  },
+  validators: [
+    (value) => typeof value === 'function'
+  ],
+  methods: []
+});
+
+Modeler({
+  name: Types.Text.required,
+  fn: Types.Function.required
+});
 ```
