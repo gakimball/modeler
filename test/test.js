@@ -8,8 +8,14 @@ const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods')
 const makeRandomId = require('../src/util/makeRandomId');
 
 const m = Modeler({
-  obj: Types.Object.values(Types.Text).required
+  thing: Types.any.of(Types.Text, Types.Number)
 });
+
+const o = m.validate({
+  thing: false
+});
+
+console.log(o);
 
 describe('Modeler', () => {
   it('is a wrapper around Model', () => {

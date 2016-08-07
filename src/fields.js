@@ -1,6 +1,6 @@
 const Field = require('./Field');
 const Model = require('./Model');
-const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods } = require('./methods');
+const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, AnyMethods } = require('./methods');
 const ObjectValidations = require('./util/ObjectValidations');
 const isPlainObject = require('is-plain-object');
 
@@ -140,6 +140,18 @@ const FieldInfo = {
     params: { default: {}, validationType: ObjectValidations.NONE },
     validators: [(value => isPlainObject(value))],
     methods: [ObjectMethods]
+  },
+
+  /**
+   * Flexible field type. Base validator checks if the value is not undefined.
+   * This type adds these extra parameters:
+   *   - `validTypes`: array of allowed types. If `any` is called on its own, this is an empty array, meaning any type is allowed. If `any.of()` is called, this array includes the types listed in `of()`.
+   */
+  any: {
+    name: 'any',
+    params: { default: '' },
+    validators: [(value => typeof value !== 'undefined')],
+    methods: [AnyMethods]
   }
 }
 

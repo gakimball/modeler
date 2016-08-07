@@ -186,4 +186,31 @@ ObjectMethods.keys.func = true;
 ObjectMethods.values.func = true;
 ObjectMethods.shape.func = true;
 
-module.exports = { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods };
+/**
+ * Chainable functions used by flexible types.
+ * @type MethodList
+ */
+let AnyMethods = {
+  /**
+   * Require an object to be one of a set of types. Types can be passed as an array or multiple arguments.
+   * @type {Field[]} types - Allowed types.
+   */
+  of(types) {
+    let typeList = Array.isArray(types)
+      ? types
+      : Array.from(arguments);
+
+    this.params.validTypes = typeList;
+
+    this.validators.push(v => {
+      const results = typeList.map(t => t.validate(v));
+      return results.indexOf(true) > -1;
+    });
+
+    return this;
+  }
+}
+
+AnyMethods.of.func = true;
+
+module.exports = { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, AnyMethods };
