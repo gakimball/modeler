@@ -30,7 +30,10 @@ module.exports = class Field {
   validate(value) {
     let valid = true;
 
-    for (let validator of this.validators) {
+    // The first validator is a basic type check. If this one fails, the other ones might fail because the values type as wrong, so we skip them and just return false
+    if (!this.validators[0](value)) return false;
+
+    for (let validator of this.validators.slice(1)) {
       valid = validator(value);
     }
 
@@ -72,6 +75,14 @@ module.exports = class Field {
     }
   }
 
+  /**
+   * Store a temporary reference to a field constructor function.
+   * Some fields are referenced as functions instead of properties, because some initial info needs to be passed to the field. For example, `Types.Text` is referenced as a property, but `Types.Option()` is called as a function, so the user can pass in what the options are.
+   * For the latter instance, the function that processes those values is stored here, and called when a field instance is being created.
+   * The `_constructor` property is removed after it's used.
+   * @private
+   * @param {Function} fn - Field constructor function.
+   */
   setConstructor(fn) {
     this._constructor = fn;
   }

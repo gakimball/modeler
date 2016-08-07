@@ -91,4 +91,27 @@ NumberMethods.between.func = true;
 NumberMethods.atLeast.func = true;
 NumberMethods.atMost.func = true;
 
-module.exports = { BaseMethods, DynamicMethods, NumberMethods }
+/**
+ * Chainable functions used by series types.
+ * @type MethodList
+ */
+let SeriesMethods = {
+  /**
+   * Requires all items in a series to be of a certain type.
+   * @type {Type} type - Type to validate with.
+   */
+  of(type) {
+    this.params.validType = type;
+
+    this.validators.push(a => {
+      const results = a.map(v => type.validate(v));
+      return results.indexOf(false) === -1;
+    });
+
+    return this;
+  }
+}
+
+SeriesMethods.of.func = true;
+
+module.exports = { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods };

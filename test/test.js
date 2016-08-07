@@ -8,10 +8,14 @@ const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods')
 const makeRandomId = require('../src/util/makeRandomId');
 
 const m = Modeler({
-  size: Types.Flag.default(true)
+  size: Types.Flag.default(true),
+  items: Types.Series.of(Types.Text)
 });
 
-console.log(m.blank());
+console.log(m.validate({
+  size: true,
+  items: 0
+}));
 
 describe('Modeler', () => {
   it('is a wrapper around Model', () => {

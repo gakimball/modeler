@@ -1,5 +1,5 @@
 const Field = require('./field');
-const { BaseMethods, DynamicMethods, NumberMethods } = require('./methods');
+const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods } = require('./methods');
 
 /**
  * Properties to pass to the `Field` class when creating an instance of a specific field type.
@@ -76,6 +76,17 @@ const FieldInfo = {
     params: { default: false },
     validators: [(value => typeof value === 'bolean')],
     methods: []
+  },
+
+  /**
+   * Array field type. Base validator checks if a value is an array.
+   * @type FieldDefinition
+   */
+  Series: {
+    name: 'series',
+    params: { default: [] },
+    validators: [(value => Array.isArray(value))],
+    methods: [SeriesMethods]
   }
 }
 
