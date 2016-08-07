@@ -1,11 +1,11 @@
 const Model = require('./Model');
-const Fields = require('./fields');
+const types = require('./types');
 const addType = require('./util/addType');
 const Types = {};
 
 // Generate Modeler.Types from the list of field types
-for (let i in Fields) {
-  addType(Types, i, Fields[i]);
+for (let i in types) {
+  addType(Types, i, types[i]);
 }
 
 // Main export: function to create a model

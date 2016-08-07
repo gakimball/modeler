@@ -19,7 +19,7 @@ const isPlainObject = require('is-plain-object');
  * @private
  * @type Object.<String, FieldDefinition>
  */
-const FieldInfo = {
+const TypeInfo = {
   /**
    * String field type. Base validator checks if a value is a string.
    * @type FieldDefinition
@@ -155,6 +155,6 @@ const FieldInfo = {
 }
 
 // module.exports is produced using the properties above
-for (let i in FieldInfo) {
-  module.exports[i] = FieldInfo[i]
+for (let i in TypeInfo) {
+  module.exports[i] = TypeInfo[i]
 }
