@@ -124,13 +124,27 @@ Modeler.Date.format('mmmm dS, yyyy');
 A series is an array of items.
 
 ```js
-Modeler.Series;                 // Items can be any type
-Modeler.Series.of(Series.Text); // Items must all be one type
+Modeler.Series;                  // Items can be any type
+Modeler.Series.of(Modeler.Text); // Items must all be one type
+```
+
+### Object
+
+An object is... an object.
+
+```js
+Modeler.Object;
+Modeler.Object.keys(Modeler.Text);     // Keys must be a certain type
+Modeler.Object.values(Modeler.Series); // Values must be a certain type
+Modeler.Object.shape({                 // Object must have a precise shape
+  name: Modeler.Text.required,
+  age: Modeler.Number.between(1, 100).required
+})
 ```
 
 ### Collection
 
-A collection is an object. It's like a model *inside* a model!
+A collection is an array of objects. It's like a model *inside* a model!
 
 ```js
 Modeler.Collection({

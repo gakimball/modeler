@@ -24,5 +24,8 @@
     "chai": "^3.5.0",
     "mocha": "^3.0.1",
     "sinon": "^1.17.5"
+  },
+  "dependencies": {
+    "is-plain-object": "^2.0.1"
   }
 }

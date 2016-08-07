@@ -8,17 +8,8 @@ const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods')
 const makeRandomId = require('../src/util/makeRandomId');
 
 const m = Modeler({
-  segments: Types.Collection({
-    label: Types.Text.required,
-    pct: Types.Number.between(0, 1).required
-  })
+  obj: Types.Object.values(Types.Text).required
 });
-
-console.log(m.validate({
-  segments: [
-    { label: 'Something', pct: 3 }
-  ]
-}));
 
 describe('Modeler', () => {
   it('is a wrapper around Model', () => {

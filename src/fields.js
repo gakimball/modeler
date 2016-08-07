@@ -1,6 +1,8 @@
 const Field = require('./Field');
 const Model = require('./Model');
-const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods } = require('./methods');
+const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods } = require('./methods');
+const ObjectValidations = require('./util/ObjectValidations');
+const isPlainObject = require('is-plain-object');
 
 /**
  * Properties to pass to the `Field` class when creating an instance of a specific field type.
@@ -94,7 +96,7 @@ const FieldInfo = {
   },
 
   /**
-   * Nested model field type. Base validator checks if the value is an array of objects with the correct shape.
+   * Array of nested models field type. Base validator checks if the value is an array of objects with the correct shape.
    * This type is called as a function instead of a property.
    * This type adds these extra parameters:
    *   - `defaultObj`: empty collection item.
@@ -125,6 +127,19 @@ const FieldInfo = {
         return results.indexOf(false) === -1;
       });
     }
+  },
+
+  /**
+   * Object field type. Base validator checks if the value is an object.
+   * This type adds these extra parameters:
+   *   - `validationType`: complexity of validation being used. If the user calls `keys()` or `values()` when setting up an Object field, this is `simple`. If the user calls `shape()`, this is `full`. By storing this value, we can detect if the user tries to call `shape()` in conjunction with `keys()` or `values()` and throw an error.
+   * @type FieldDefinition
+   */
+  Object: {
+    name: 'object',
+    params: { default: {}, validationType: ObjectValidations.NONE },
+    validators: [(value => isPlainObject(value))],
+    methods: [ObjectMethods]
   }
 }
 
