@@ -4,7 +4,7 @@ const Modeler = require('../src');
 const Model = require('../src/Model');
 const Field = require('../src/Field');
 const { Types } = Modeler;
-const { BaseMethods, DynamicMethods } = require('../src/methods');
+const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods');
 const makeRandomId = require('../src/util/makeRandomId');
 
 describe('Modeler', () => {
@@ -194,10 +194,43 @@ describe('Field methods', () => {
   });
 
   describe('filter', () => {
-    const Fn = () => {};
-    const Input = { filters: [] };
-    const Expected = { filters: [Fn] };
-    expect(DynamicMethods.filter.call(Input, Fn)).to.eql(Expected);
+    it('adds a function to this.filters', () => {
+      const Fn = () => {};
+      const Input = { filters: [] };
+      const Expected = { filters: [Fn] };
+      expect(DynamicMethods.filter.call(Input, Fn)).to.eql(Expected);
+    });
+  });
+
+  describe('between', () => {
+    it('adds a function to check if n is <= max and >= min', () => {
+      const Input = { validators: [] };
+      const { validators } = NumberMethods.between.call(Input, 0, 1);
+      expect(validators[0](0)).to.be.true;
+      expect(validators[0](0.5)).to.be.true;
+      expect(validators[0](1)).to.be.true;
+      expect(validators[0](2)).to.be.false;
+    });
+  });
+
+  describe('atLeast', () => {
+    it('adds a function to check if n is >= min', () => {
+      const Input = { validators: [] };
+      const { validators } = NumberMethods.atLeast.call(Input, 0);
+      expect(validators[0](0)).to.be.true;
+      expect(validators[0](1)).to.be.true;
+      expect(validators[0](-1)).to.be.false;
+    });
+  });
+
+  describe('atMost', () => {
+    it('adds a function to check if n is <= max', () => {
+      const Input = { validators: [] };
+      const { validators } = NumberMethods.atMost.call(Input, 1);
+      expect(validators[0](0)).to.be.true;
+      expect(validators[0](1)).to.be.true;
+      expect(validators[0](2)).to.be.false;
+    });
   });
 });
 

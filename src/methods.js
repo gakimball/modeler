@@ -7,7 +7,7 @@
  * Chainable functions used by all types.
  * @type MethodList
  */
-BaseMethods = {
+let BaseMethods = {
   /**
    * Makes a field required.
    */
@@ -32,7 +32,7 @@ BaseMethods.default.func = true;
  * Chainable functions used by types that support dynamic values.
  * @type MethodList
  */
-DynamicMethods = {
+let DynamicMethods = {
   /**
    * Defines a field as being dynamic, making it filterable.
    */
@@ -53,4 +53,42 @@ DynamicMethods = {
 
 DynamicMethods.filter.func = true;
 
-module.exports = { BaseMethods, DynamicMethods }
+/**
+ * Chainable functions used by numeric types.
+ * @type MethodList
+ */
+let NumberMethods = {
+  /**
+   * Requires a number to be between two values (inclusive).
+   * @param {Number} min - Minimum value.
+   * @param {Number} max - Maximum value.
+   */
+  between(min, max) {
+    this.validators.push(n => n >= min && n <= max);
+    return this;
+  },
+
+  /**
+   * Requires a number to be greater than or equal to a value.
+   * @param {Number} min - Minimum value.
+   */
+  atLeast(min) {
+    this.validators.push(n => n >= min);
+    return this;
+  },
+
+  /**
+   * Requires a number to be less than or equal to a value.
+   * @param {Number} max - Maximum value.
+   */
+  atMost(max) {
+    this.validators.push(n => n <= max);
+    return this;
+  }
+}
+
+NumberMethods.between.func = true;
+NumberMethods.atLeast.func = true;
+NumberMethods.atMost.func = true;
+
+module.exports = { BaseMethods, DynamicMethods, NumberMethods }

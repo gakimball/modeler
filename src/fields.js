@@ -1,5 +1,5 @@
 const Field = require('./field');
-const { BaseMethods, DynamicMethods } = require('./methods');
+const { BaseMethods, DynamicMethods, NumberMethods } = require('./methods');
 
 /**
  * Properties to pass to the `Field` class when creating an instance of a specific field type.
@@ -26,6 +26,16 @@ const FieldInfo = {
     params: { default: '' },
     validators: [(value => typeof value === 'string')],
     methods: [DynamicMethods]
+  },
+
+  /**
+   * String field type. Base validator checks if a value is a string.
+   */
+  Number: {
+    name: 'number',
+    params: { default: '' },
+    validators: [(value => typeof value === 'number')],
+    methods: [DynamicMethods, NumberMethods]
   }
 }
 
