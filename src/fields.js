@@ -1,4 +1,5 @@
-const Field = require('./field');
+const Field = require('./Field');
+const Model = require('./Model');
 const { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods } = require('./methods');
 
 /**
@@ -43,6 +44,8 @@ const FieldInfo = {
   /**
    * Option field type. Base validator checks if a value is one of the options.
    * This type is called as a function instead of a property.
+   * This type adds these extra parameters:
+   *   - `options`: array of possible values for this field.
    * @type FieldDefinition
    */
   Option: {
@@ -53,6 +56,7 @@ const FieldInfo = {
     /**
      * Defines the possible values of an option field. Can be passed as an array or multiple arguments.
      * Also sets an initial default value for the field, but this can be changed with `default()`.
+     * @param {Field} instance - Field class instance to modify.
      * @param {Array} options - Possible values for this field.
      */
     fn(instance, options)  {
@@ -87,6 +91,40 @@ const FieldInfo = {
     params: { default: [] },
     validators: [(value => Array.isArray(value))],
     methods: [SeriesMethods]
+  },
+
+  /**
+   * Nested model field type. Base validator checks if the value is an array of objects with the correct shape.
+   * This type is called as a function instead of a property.
+   * This type adds these extra parameters:
+   *   - `defaultObj`: empty collection item.
+   *   - `model`: model for this collection.
+   * @type FieldDefinition
+   */
+  Collection: {
+    name: 'collection',
+    params: { default: [], defaultObj: {}, model: null },
+    validators: [(value => Array.isArray(value))],
+    methods: [],
+    /**
+     * Defines the model of this collection. Adds an extra validator that checks every item in a collection against the model.
+     * @param {Field} instance - Field class instance to modify.
+     * @param {Object} fields - Fields representing the collection model.
+     */
+    fn: function(instance, fields) {
+      // Create a model out of the fields given
+      const model = new Model(fields);
+
+      // Store the model instance and a blank model object on the field
+      instance.params.model = model;
+      instance.params.defaultObj = model.blank();
+
+      // Add a validator that checks each item in an array against the model
+      instance.validators.push(array => {
+        const results = array.map(v => model.validate(v));
+        return results.indexOf(false) === -1;
+      });
+    }
   }
 }
 
