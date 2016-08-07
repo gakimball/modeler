@@ -1,8 +1,14 @@
+/**
+ * Definition for a field model. Contains metadata about the field's requirements and special properties, as well as a series of validators that can be run to validate a value.
+ * @class
+ */
 module.exports = class Field {
   /**
-   * Creates a new Field instance.
+   * Create a new Field instance.
    * @constructor
-   * @param {Object} field - Overrides to default field metadata.
+   * @param {String} type - Field type.
+   * @param {Object} params - Overrides to default field parameters.
+   * @param {Function[]} validators - Baseline validators for this field.
    */
   constructor(type, params, validators) {
     this.type = type;
@@ -22,7 +28,7 @@ module.exports = class Field {
   validate(value) {
     let valid = true;
 
-    for (let validator of this.metadata.validators) {
+    for (let validator of this.validators) {
       valid = validator(value);
     }
 
