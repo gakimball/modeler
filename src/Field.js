@@ -71,4 +71,8 @@ module.exports = class Field {
       }
     }
   }
+
+  setConstructor(fn) {
+    this._constructor = fn;
+  }
 }

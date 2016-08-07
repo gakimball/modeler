@@ -36,6 +36,28 @@ const FieldInfo = {
     params: { default: '' },
     validators: [(value => typeof value === 'number')],
     methods: [DynamicMethods, NumberMethods]
+  },
+
+  Option: {
+    name: 'option',
+    params: { default: '', options: [] },
+    validators: [(value => this.params.options.indexOf(value) > -1)],
+    methods: [],
+    /**
+     * Defines the possible values of an option field. Can be passed as an array or multiple arguments.
+     * Also sets an initial default value for the field, but this can be changed with `default()`.
+     * @param {Array} options - Possible values for this field.
+     */
+    fn(instance, options)  {
+      if (Array.isArray(options)) {
+        instance.params.options = options;
+      }
+      else {
+        instance.params.options = Array.from(arguments).slice(1);
+      }
+
+      instance.params.default = instance.params.options[0];
+    }
   }
 }
 
@@ -49,6 +71,9 @@ for (let i in FieldInfo) {
 
     // All field types have the basic chainable methods, and field type-specific chainable methods are added as well, and bound to this class instance
     FieldInstance.bindMethods.apply(FieldInstance, field.methods.concat(BaseMethods));
+
+    // If a field is called as a function instead of accessed as a property, store the constructor for later use
+    if (field.fn) FieldInstance.setConstructor(field.fn);
 
     return FieldInstance;
   }

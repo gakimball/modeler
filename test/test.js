@@ -7,6 +7,12 @@ const { Types } = Modeler;
 const { BaseMethods, DynamicMethods, NumberMethods } = require('../src/methods');
 const makeRandomId = require('../src/util/makeRandomId');
 
+const m = Modeler({
+  size: Types.Option('one', 'two')
+});
+
+console.log(m.fields.size);
+
 describe('Modeler', () => {
   it('is a wrapper around Model', () => {
     expect(Modeler({})).to.be.an.instanceOf(Model);
@@ -132,12 +138,12 @@ describe('Field', () => {
 });
 
 describe('Model', () => {
-  let Instance;
-  const Fields = {
-    value: Types.Text.default('test').required
-  };
+  let Instance, Fields;
 
   before(() => {
+    Fields = {
+      value: Types.Text.default('test').required
+    };
     Instance = new Model(Fields);
   })
 
