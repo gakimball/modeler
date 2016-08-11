@@ -174,6 +174,7 @@ let ObjectMethods = {
     }
 
     const model = new Model(fields);
+    this.params.model = model;
     this.validators.push(v => model.validate(v));
 
     this.params.validationType = ObjectValidations.FULL;

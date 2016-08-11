@@ -12,7 +12,10 @@ for (let i in types) {
 module.exports = (fields) => new Model(fields);
 
 // Function to add custom types
-module.exports.type = (name, dfn) => addType.call(null, Types, name, dfn);
+module.exports.type = (name, dfn) => addType(Types, name, dfn);
+
+// Function to add type aliases
+module.exports.alias = (name, dfn) => Types[name] = dfn;
 
 // Object of available types
 module.exports.Types = Types;

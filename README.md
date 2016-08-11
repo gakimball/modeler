@@ -161,6 +161,24 @@ Modeler.any.of(Modeler.Text, Modeler.Number);   // Text or number
 Modeler.any.of([Modeler.Text, Modeler.Number]); // Can also be an array
 ```
 
+### Aliases
+
+If you use a complex type definition in multiple places, you can create an alias.
+
+```js
+// Type that stores a raw value and references to filtering functions
+Modeler.alias('DynamicField', Modeler.Object.shape({
+  value: Modeler.Text.required,
+  filters: Modeler.Series.of(Modeler.Text).required
+}));
+
+// Now reference the type like you would any other
+Modeler({
+  key: Modeler.Text.required,
+  value: Modeler.DynamicField.required
+});
+```
+
 ## Custom Types
 
 Create a custom field type by calling `Modeler.type()`, passing in a name and these settings:
