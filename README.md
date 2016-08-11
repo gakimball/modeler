@@ -3,21 +3,21 @@
 Data modeling and validation tool.
 
 ```js
-import Modeler from 'modeler';
+import Modeler, { Types } from 'modeler';
 
 class ValueModule extends Module {
   static properties = Modeler({
-    key: Modeler.Text.required,
-    value: Modeler.Text.dynamic.required,
-    size: Modeler.Option('full', 'half', 'quarter').required
+    key: Types.Text.required,
+    value: Types.Text.dynamic.required,
+    size: Types.Option('full', 'half', 'quarter').required
   })
 }
 
 class PieChartModule extends Module {
   static properties = Modeler({
-    items: Modeler.Collection({
-      key: Modeler.Text.required,
-      size: Modeler.Number.between(0, 1).required
+    items: Types.Collection({
+      key: Types.Text.required,
+      size: Types.Number.between(0, 1).required
     }).atLeast(1)
   })
 }
@@ -29,8 +29,8 @@ Create a model with the `Modeler` function, then pass in fields in an object.
 
 ```js
 const model = Modeler({
-  name: Modeler.Text.required,
-  age: Modeler.Number.required
+  name: Types.Text.required,
+  age: Types.Number.required
 });
 ```
 
@@ -63,10 +63,10 @@ model.blank(); // => { name: '', age: '' }
 These settings can be applied to any field type.
 
 ```js
-Modeler.Field.dynamic; // Make a field's value filterable
-Modeler.Field.required; // Make a field required
-Modeler.Field.default('default'); // Set a field's default value
-Modeler.Field.filter(fn); // Convert value with a function
+Types.Field.dynamic; // Make a field's value filterable
+Types.Field.required; // Make a field required
+Types.Field.default('default'); // Set a field's default value
+Types.Field.filter(fn); // Convert value with a function
 ```
 
 ### Text
@@ -74,10 +74,10 @@ Modeler.Field.filter(fn); // Convert value with a function
 A text field is any string.
 
 ```js
-Modeler.Text;
-Modeler.Text.atLeast(5);     // String must have at least 5 characters
-Modeler.Text.atMost(30);     // String must have at most 30 characters
-Modeler.Text.between(5, 30); // String must have 5&ndash;30 characters
+Types.Text;
+Types.Text.atLeast(5);     // String must have at least 5 characters
+Types.Text.atMost(30);     // String must have at most 30 characters
+Types.Text.between(5, 30); // String must have 5&ndash;30 characters
 ```
 
 ### Number
@@ -85,11 +85,11 @@ Modeler.Text.between(5, 30); // String must have 5&ndash;30 characters
 A number field is any number, or a number stored as a string.
 
 ```js
-Modeler.Number;
-Modeler.Number.between(0, 1); // Limit the range of numbers
-Modeler.Number.atLeast(0);    // Floor for number
-Modeler.Number.atMost(1);     // Ceiling for number
-Modeler.Number.allowStrings;  // Number can be a string
+Types.Number;
+Types.Number.between(0, 1); // Limit the range of numbers
+Types.Number.atLeast(0);    // Floor for number
+Types.Number.atMost(1);     // Ceiling for number
+Types.Number.allowStrings;  // Number can be a string
 ```
 
 ### Option
@@ -97,8 +97,8 @@ Modeler.Number.allowStrings;  // Number can be a string
 An option field is a single choice among multiple values. Can be stored as any type.
 
 ```js
-Modeler.Option('one', 'two', 'three');
-Modeler.Option(['one', 'two', 'three']); // Can also be passed as an array
+Types.Option('one', 'two', 'three');
+Types.Option(['one', 'two', 'three']); // Can also be passed as an array
 ```
 
 ### Flag
@@ -106,9 +106,9 @@ Modeler.Option(['one', 'two', 'three']); // Can also be passed as an array
 A flag is a yes/no choice, stored as a boolean.
 
 ```js
-Modeler.Flag;
-Modeler.Flag.default(true); // Default is false unless specified
-Modeler.Flag.allowStrings;  // Value can be string "true" or "false"
+Types.Flag;
+Types.Flag.default(true); // Default is false unless specified
+Types.Flag.allowStrings;  // Value can be string "true" or "false"
 ```
 
 ### Series
@@ -116,11 +116,11 @@ Modeler.Flag.allowStrings;  // Value can be string "true" or "false"
 A series is an array of items.
 
 ```js
-Modeler.Series;                  // Items can be any type
-Modeler.Series.of(Modeler.Text); // Items must all be one type
-Modeler.Series.atLeast(1);       // Array must have at least 1 item
-Modeler.Series.atMost(10);       // Array must have 10 or fewer items
-Modeler.Series.between(1, 10);   // Array must have 1&ndash;10 items
+Types.Series;                  // Items can be any type
+Types.Series.of(Types.Text); // Items must all be one type
+Types.Series.atLeast(1);       // Array must have at least 1 item
+Types.Series.atMost(10);       // Array must have 10 or fewer items
+Types.Series.between(1, 10);   // Array must have 1&ndash;10 items
 ```
 
 ### Object
@@ -128,12 +128,12 @@ Modeler.Series.between(1, 10);   // Array must have 1&ndash;10 items
 An object is... an object.
 
 ```js
-Modeler.Object;
-Modeler.Object.keys(Modeler.Text);     // Keys must be a certain type
-Modeler.Object.values(Modeler.Series); // Values must be a certain type
-Modeler.Object.shape({                 // Object must have a precise shape
-  name: Modeler.Text.required,
-  age: Modeler.Number.between(1, 100).required
+Types.Object;
+Types.Object.keys(Types.Text);     // Keys must be a certain type
+Types.Object.values(Types.Series); // Values must be a certain type
+Types.Object.shape({                 // Object must have a precise shape
+  name: Types.Text.required,
+  age: Types.Number.between(1, 100).required
 })
 ```
 
@@ -142,13 +142,13 @@ Modeler.Object.shape({                 // Object must have a precise shape
 A collection is an array of objects. It's like a model *inside* a model!
 
 ```js
-Modeler.Collection({
-  title: Modeler.Text.required,
-  pct: Modeler.Number.between(0, 100).required
+Types.Collection({
+  title: Types.Text.required,
+  pct: Types.Number.between(0, 100).required
 });
-Modeler.Collection({}).atLeast(1);     // Collection must have at least 1 item
-Modeler.Collection({}).atMost(10);     // Collection must have 10 or fewer items
-Modeler.Collection({}).between(1, 10); // Collection must have 1&ndash;10 items
+Types.Collection({}).atLeast(1);     // Collection must have at least 1 item
+Types.Collection({}).atMost(10);     // Collection must have 10 or fewer items
+Types.Collection({}).between(1, 10); // Collection must have 1&ndash;10 items
 ```
 
 ### any
@@ -156,9 +156,9 @@ Modeler.Collection({}).between(1, 10); // Collection must have 1&ndash;10 items
 A field can allow any type, or allow for one of a set of types.
 
 ```js
-Modeler.any;                                    // Anything!
-Modeler.any.of(Modeler.Text, Modeler.Number);   // Text or number
-Modeler.any.of([Modeler.Text, Modeler.Number]); // Can also be an array
+Types.any;                                    // Anything!
+Types.any.of(Types.Text, Types.Number);   // Text or number
+Types.any.of([Types.Text, Types.Number]); // Can also be an array
 ```
 
 ### Aliases
@@ -167,15 +167,15 @@ If you use a complex type definition in multiple places, you can create an alias
 
 ```js
 // Type that stores a raw value and references to filtering functions
-Modeler.alias('DynamicField', Modeler.Object.shape({
-  value: Modeler.Text.required,
-  filters: Modeler.Series.of(Modeler.Text).required
+Modeler.alias('DynamicField', Types.Object.shape({
+  value: Types.Text.required,
+  filters: Types.Series.of(Types.Text).required
 }));
 
 // Now reference the type like you would any other
 Modeler({
-  key: Modeler.Text.required,
-  value: Modeler.DynamicField.required
+  key: Types.Text.required,
+  value: Types.DynamicField.required
 });
 ```
 
