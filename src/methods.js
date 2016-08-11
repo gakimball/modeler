@@ -98,7 +98,7 @@ NumberMethods.atMost.func = true;
  * Chainable functions used by series types.
  * @type MethodList
  */
-let SeriesMethods = {
+let ArrayMethods = {
   /**
    * Requires all items in a series to be of a certain type.
    * @type {Type} type - Type to validate with.
@@ -115,7 +115,7 @@ let SeriesMethods = {
   }
 }
 
-SeriesMethods.of.func = true;
+ArrayMethods.of.func = true;
 
 /**
  * Chainable functions used by object types.
@@ -191,7 +191,7 @@ ObjectMethods.shape.func = true;
  * Chainable functions used by array types.
  * @type MethodList
  */
-let ArrayMethods = {
+let ArrayLengthMethods = {
   /**
    * Requires an array's length to be between two values (inclusive).
    * @param {Number} min - Minimum value.
@@ -221,9 +221,9 @@ let ArrayMethods = {
   }
 }
 
-ArrayMethods.between.func = true;
-ArrayMethods.atLeast.func = true;
-ArrayMethods.atMost.func = true;
+ArrayLengthMethods.between.func = true;
+ArrayLengthMethods.atLeast.func = true;
+ArrayLengthMethods.atMost.func = true;
 
 /**
  * Chainable functions used by flexible types.
@@ -252,4 +252,4 @@ let AnyMethods = {
 
 AnyMethods.of.func = true;
 
-module.exports = { BaseMethods, DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, ArrayMethods, AnyMethods };
+module.exports = { BaseMethods, DynamicMethods, NumberMethods, ArrayMethods, ObjectMethods, ArrayLengthMethods, AnyMethods };

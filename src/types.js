@@ -1,5 +1,5 @@
 const Model = require('./Model');
-const { DynamicMethods, NumberMethods, SeriesMethods, ObjectMethods, ArrayMethods, AnyMethods } = require('./methods');
+const { DynamicMethods, NumberMethods, ArrayMethods, ObjectMethods, ArrayLengthMethods, AnyMethods } = require('./methods');
 const ObjectValidations = require('./util/ObjectValidations');
 const isPlainObject = require('is-plain-object');
 
@@ -28,7 +28,7 @@ module.exports = {
     name: 'text',
     params: { default: '' },
     validators: [(value => typeof value === 'string')],
-    methods: [DynamicMethods, ArrayMethods]
+    methods: [DynamicMethods, ArrayLengthMethods]
   },
 
   /**
@@ -76,8 +76,8 @@ module.exports = {
    * Boolean field type. Base validator checks if a value is a boolean.
    * @type FieldDefinition
    */
-  Flag: {
-    name: 'flag',
+  Boolean: {
+    name: 'boolean',
     params: { default: false },
     validators: [(value => typeof value === 'bolean')],
     methods: []
@@ -87,11 +87,11 @@ module.exports = {
    * Array field type. Base validator checks if a value is an array.
    * @type FieldDefinition
    */
-  Series: {
-    name: 'series',
+  Array: {
+    name: 'array',
     params: { default: [] },
     validators: [(value => Array.isArray(value))],
-    methods: [ArrayMethods, SeriesMethods]
+    methods: [ArrayMethods, ArrayLengthMethods]
   },
 
   /**
@@ -106,7 +106,7 @@ module.exports = {
     name: 'collection',
     params: { default: [], defaultObj: {}, model: null },
     validators: [(value => Array.isArray(value))],
-    methods: [ArrayMethods],
+    methods: [ArrayLengthMethods],
     /**
      * Defines the model of this collection. Adds an extra validator that checks every item in a collection against the model.
      * @param {Field} instance - Field class instance to modify.

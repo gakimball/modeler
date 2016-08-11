@@ -101,26 +101,26 @@ Types.Option('one', 'two', 'three');
 Types.Option(['one', 'two', 'three']); // Can also be passed as an array
 ```
 
-### Flag
+### Boolean
 
-A flag is a yes/no choice, stored as a boolean.
+A boolean is either `true` or `false`.
 
 ```js
-Types.Flag;
-Types.Flag.default(true); // Default is false unless specified
-Types.Flag.allowStrings;  // Value can be string "true" or "false"
+Types.Boolean;
+Types.Boolean.default(true); // Default is false unless specified
+Types.Boolean.allowStrings;  // Value can be string "true" or "false"
 ```
 
-### Series
+### Array
 
-A series is an array of items.
+A series is a series of items.
 
 ```js
-Types.Series;                  // Items can be any type
-Types.Series.of(Types.Text); // Items must all be one type
-Types.Series.atLeast(1);       // Array must have at least 1 item
-Types.Series.atMost(10);       // Array must have 10 or fewer items
-Types.Series.between(1, 10);   // Array must have 1&ndash;10 items
+Types.Array;                  // Items can be any type
+Types.Array.of(Types.Text);   // Items must all be one type
+Types.Array.atLeast(1);       // Array must have at least 1 item
+Types.Array.atMost(10);       // Array must have 10 or fewer items
+Types.Array.between(1, 10);   // Array must have 1&ndash;10 items
 ```
 
 ### Object
@@ -169,7 +169,7 @@ If you use a complex type definition in multiple places, you can create an alias
 // Type that stores a raw value and references to filtering functions
 Modeler.alias('DynamicField', Types.Object.shape({
   value: Types.Text.required,
-  filters: Types.Series.of(Types.Text).required
+  filters: Types.Array.of(Types.Text).required
 }));
 
 // Now reference the type like you would any other
