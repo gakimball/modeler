@@ -8,18 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CreateIO/modeler.git"
+    "url": "git+https://github.com/gakimball/modeler.git"
   },
   "keywords": [
     "data",
     "model"
   ],
-  "author": "Create <http://create.io>",
+  "author": "Geoff Kimball <geoff@geoffkimball.com> (http://geoffkimball.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CreateIO/modeler/issues"
+    "url": "https://github.com/gakimball/modeler/issues"
   },
-  "homepage": "https://github.com/CreateIO/modeler#readme",
+  "homepage": "https://github.com/gakimball/modeler#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.0.1",

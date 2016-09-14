@@ -1,6 +1,8 @@
 # Modeler
 
-Data modeling and validation tool.
+**This was a weekend project I ended up not needing for my job. I won't be publishing it to npm.**
+
+Data modeling and validation tool. It's like React's PropTypes, but you can access the underlying metadata about the validation.
 
 ```js
 import Modeler, { Types } from 'modeler';
@@ -25,7 +27,7 @@ class PieChartModule extends Module {
 
 ## Models
 
-Create a model with the `Modeler` function, then pass in fields in an object.
+Create a model with the `Modeler` function, then pass in fields as an object.
 
 ```js
 const model = Modeler({
